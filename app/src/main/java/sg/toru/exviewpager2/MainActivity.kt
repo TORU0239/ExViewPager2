@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -20,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewPager2 = findViewById(R.id.viewpager2)
-        viewPager2.adapter = ViewPagerAdapter()
+//        viewPager2.adapter = ViewPagerAdapter()
+        viewPager2.adapter = ViewPagerFragmentAdapter(this)
     }
 }
 
@@ -43,6 +45,11 @@ class ViewPagerAdapter(): RecyclerView.Adapter<DummyCardViewHolder>(){
     }
 }
 
-//class ViewPagerFragmentAdapter(val activity:FragmentActivity):FragmentStateAdapter(activity){
-//
-//}
+// this is recommended way.. but how can we deal with the case of using Fragment for argument?
+class ViewPagerFragmentAdapter(activity:FragmentActivity):FragmentStateAdapter(activity){
+    override fun getItemCount(): Int = 3
+
+    override fun createFragment(position: Int): Fragment {
+        return ViewPagerFragment()
+    }
+}
